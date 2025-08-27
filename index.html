@@ -1,677 +1,282 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formation CNV - Communication Non Violente | BLOB</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Formation CNV - Communication Non Violente | BLOB</title>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Ubuntu',Arial,sans-serif;line-height:1.6;color:#333;background:linear-gradient(135deg,#F2F6EB 0%,#fff 100%)}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
 
-        body {
-            font-family: 'Ubuntu', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #F2F6EB 0%, #ffffff 100%);
-        }
+    /* Header */
+    .header{background:linear-gradient(135deg,#FFCE55 0%,#FFCE55 70%,#DBF58E 100%);padding:60px 0;text-align:center;position:relative;overflow:hidden}
+    .header::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23ffffff" opacity="0.1"/></svg>') repeat;animation:float 20s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(180deg)}}
+    .header-content{position:relative;z-index:2}
+    .logo-section{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;flex-wrap:wrap;gap:20px}
+    /* Logo responsive */
+    .blob-logo{width:clamp(120px,18vw,220px);height:auto;display:block;background:#fff;padding:12px;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.08);border:2px solid #FFCE55}
+    .creche-info{background:rgba(255,255,255,.9);padding:15px 25px;border-radius:25px;backdrop-filter:blur(10px)}
+    .main-title{font-size:2.8rem;font-weight:bold;color:#333;text-shadow:1px 1px 2px rgba(255,255,255,.8);margin-bottom:20px;animation:slideInUp 1s ease-out}
+    @keyframes slideInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    .subtitle{font-size:1.4rem;color:#568255;background:rgba(255,255,255,.9);padding:15px 30px;border-radius:25px;display:inline-block;backdrop-filter:blur(10px);animation:slideInUp 1s ease-out .3s both}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+    /* Event Info */
+    .event-info{background:#fff;margin:40px 0;padding:40px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.1);border-left:8px solid #FFCE55}
+    .event-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;margin-top:20px}
+    .info-card{background:linear-gradient(135deg,#F2F6EB 0%,#DBF58E 100%);padding:25px;border-radius:15px;text-align:center;transition:transform .3s ease}
+    .info-card:hover{transform:translateY(-5px)}
+    .info-card h3{color:#568255;font-size:1.3rem;margin-bottom:15px}
 
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #FFCE55 0%, #FFCE55 70%, #DBF58E 100%);
-            padding: 60px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+    /* Objectives */
+    .objectives{background:linear-gradient(135deg,#DBF58E 0%,#92C3A4 100%);margin:40px 0;padding:40px;border-radius:20px}
+    .objectives h2{color:#568255;margin-bottom:25px;font-size:1.8rem}
+    .objectives-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+    .objective-item{background:rgba(255,255,255,.8);padding:20px;border-radius:10px;backdrop-filter:blur(10px)}
+    .objective-item::before{content:'✓';color:#FB6E52;font-weight:bold;margin-right:10px;font-size:1.2rem}
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23ffffff" opacity="0.1"/></svg>') repeat;
-            animation: float 20s ease-in-out infinite;
-        }
+    /* Program Section */
+    .program-section{background:#fff;margin:40px 0;padding:50px 40px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.1)}
+    .section-title{font-size:2.2rem;color:#568255;text-align:center;margin-bottom:40px;position:relative}
+    .section-title::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#FFCE55,#FB6E52);border-radius:2px}
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
+    /* Accordion */
+    .accordion{margin-top:30px}
+    .accordion-item{margin-bottom:20px;border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,.1);transition:all .3s ease}
+    .accordion-item:hover{box-shadow:0 8px 30px rgba(0,0,0,.15)}
+    .accordion-header{background:linear-gradient(135deg,#568255 0%,#92C3A4 100%);color:#fff;padding:25px;cursor:pointer;font-weight:bold;font-size:1.1rem;transition:all .3s ease;position:relative}
+    .accordion-header:hover{background:linear-gradient(135deg,#92C3A4 0%,#568255 100%)}
+    .accordion-header::after{content:'+';position:absolute;right:25px;top:50%;transform:translateY(-50%);font-size:1.5rem;transition:transform .3s ease}
+    .accordion-header.active::after{transform:translateY(-50%) rotate(45deg)}
+    .accordion-content{background:#F2F6EB;padding:0;max-height:0;overflow:hidden;transition:all .3s ease}
+    .accordion-content.active{padding:25px;max-height:500px}
 
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
+    /* Map Section */
+    .map-section{background:#fff;margin:40px 0;padding:40px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.1)}
+    .map-container{width:100%;height:300px;border-radius:15px;overflow:hidden;margin-top:20px}
+    .map-container iframe{width:100%;height:100%;border:none}
 
-        .logo-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+    /* Downloads */
+    .downloads{background:linear-gradient(135deg,#FB6E52 0%,#FFCE55 100%);margin:40px 0;padding:40px;border-radius:20px;text-align:center}
+    .downloads h2{color:#fff;margin-bottom:30px;font-size:1.8rem}
+    .download-buttons{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+    .download-btn{background:#fff;color:#568255;padding:15px 30px;border-radius:50px;text-decoration:none;font-weight:bold;transition:all .3s ease;box-shadow:0 5px 20px rgba(0,0,0,.1)}
+    .download-btn:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.2);color:#FB6E52}
 
-        /* Taille du logo : responsive */
-.blob-logo {
-  width: clamp(120px, 18vw, 220px); /* min = 120px, puis 18% de la largeur écran, max = 220px */
-  height: auto;                     /* garde les proportions */
-  display: block;
-}
+    /* Footer */
+    .footer{background:#568255;color:#fff;padding:50px 0 30px;margin-top:60px}
+    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px}
+    .footer-section h3{color:#FFCE55;margin-bottom:20px;font-size:1.3rem}
+    .footer-section a{color:#92C3A4;text-decoration:none;transition:color .3s ease}
+    .footer-section a:hover{color:#FFCE55}
+    .footer-bottom{text-align:center;margin-top:30px;padding-top:30px;border-top:1px solid #92C3A4;color:#92C3A4}
 
-/* Optionnel : si tu veux un petit “carton” blanc autour du logo (comme avant) */
-.logo-section .blob-logo {
-  background: white;
-  padding: 12px;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-  border: 2px solid #FFCE55;
-}
+    /* Focus styles */
+    .accordion-header:focus,.download-btn:focus{outline:3px solid #FFCE55;outline-offset:2px}
 
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            border: 2px solid #FFCE55;
-        }
-
-        .logo-placeholder {
-            background: white;
-            padding: 20px 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            border: 2px solid #FFCE55;
-            font-family: 'Ubuntu', Arial, sans-serif;
-            font-weight: bold;
-            color: #568255;
-            font-size: 1.5rem;
-        }
-
-        .creche-info {
-            background: rgba(255,255,255,0.9);
-            padding: 15px 25px;
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-        }
-
-        .main-title {
-            font-size: 2.8rem;
-            font-weight: bold;
-            color: #333;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
-            margin-bottom: 20px;
-            animation: slideInUp 1s ease-out;
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .subtitle {
-            font-size: 1.4rem;
-            color: #568255;
-            background: rgba(255,255,255,0.9);
-            padding: 15px 30px;
-            border-radius: 25px;
-            display: inline-block;
-            backdrop-filter: blur(10px);
-            animation: slideInUp 1s ease-out 0.3s both;
-        }
-
-        /* Date and Location */
-        .event-info {
-            background: white;
-            margin: 40px 0;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            border-left: 8px solid #FFCE55;
-        }
-
-        .event-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .info-card {
-            background: linear-gradient(135deg, #F2F6EB 0%, #DBF58E 100%);
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .info-card h3 {
-            color: #568255;
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-        }
-
-        /* Program Section */
-        .program-section {
-            background: white;
-            margin: 40px 0;
-            padding: 50px 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-
-        .section-title {
-            font-size: 2.2rem;
-            color: #568255;
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, #FFCE55, #FB6E52);
-            border-radius: 2px;
-        }
-
-        /* Accordion */
-        .accordion {
-            margin-top: 30px;
-        }
-
-        .accordion-item {
-            margin-bottom: 20px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .accordion-item:hover {
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-        }
-
-        .accordion-header {
-            background: linear-gradient(135deg, #568255 0%, #92C3A4 100%);
-            color: white;
-            padding: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .accordion-header:hover {
-            background: linear-gradient(135deg, #92C3A4 0%, #568255 100%);
-        }
-
-        .accordion-header::after {
-            content: '+';
-            position: absolute;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .accordion-header.active::after {
-            transform: translateY(-50%) rotate(45deg);
-        }
-
-        .accordion-content {
-            background: #F2F6EB;
-            padding: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .accordion-content.active {
-            padding: 25px;
-            max-height: 500px;
-        }
-
-        /* Objectives */
-        .objectives {
-            background: linear-gradient(135deg, #DBF58E 0%, #92C3A4 100%);
-            margin: 40px 0;
-            padding: 40px;
-            border-radius: 20px;
-        }
-
-        .objectives h2 {
-            color: #568255;
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-        }
-
-        .objectives-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .objective-item {
-            background: rgba(255,255,255,0.8);
-            padding: 20px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-        }
-
-        .objective-item::before {
-            content: '✓';
-            color: #FB6E52;
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-
-        /* Map Section */
-        .map-section {
-            background: white;
-            margin: 40px 0;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-
-        .map-container {
-            width: 100%;
-            height: 300px;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-
-        .map-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Downloads */
-        .downloads {
-            background: linear-gradient(135deg, #FB6E52 0%, #FFCE55 100%);
-            margin: 40px 0;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-        }
-
-        .downloads h2 {
-            color: white;
-            margin-bottom: 30px;
-            font-size: 1.8rem;
-        }
-
-        .download-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .download-btn {
-            background: white;
-            color: #568255;
-            padding: 15px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-            color: #FB6E52;
-        }
-
-        /* Footer */
-        .footer {
-            background: #568255;
-            color: white;
-            padding: 50px 0 30px;
-            margin-top: 60px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .footer-section h3 {
-            color: #FFCE55;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-        }
-
-        .footer-section a {
-            color: #92C3A4;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: #FFCE55;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 1px solid #92C3A4;
-            color: #92C3A4;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2rem;
-            }
-
-            .logo-section {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .event-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .program-section,
-            .event-info {
-                padding: 30px 20px;
-            }
-
-            .download-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        /* Accessibility */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0,0,0,0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* Focus styles */
-        .accordion-header:focus,
-        .download-btn:focus {
-            outline: 3px solid #FFCE55;
-            outline-offset: 2px;
-                    .accordion-header:focus,
-        .download-btn:focus {
-            outline: 3px solid #FFCE55;
-            outline-offset: 2px;
-        }
-
-        /* Taille du logo */
-        .blob-logo {
-            max-width: 150px;   /* largeur max en pixels */
-            height: auto;       /* garde les proportions */
-        }
-    </style>
-
-        }
-    </style>
+    /* Responsive */
+    @media (max-width:768px){
+      .main-title{font-size:2rem}
+      .logo-section{flex-direction:column;text-align:center}
+      .event-grid{grid-template-columns:1fr}
+      .program-section,.event-info{padding:30px 20px}
+      .download-buttons{flex-direction:column;align-items:center}
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo-section">
-                  <img src="assets/logo-blob.png" alt="BLOB Conseil & Formation" class="blob-logo">
-                    </div>
-                    <div class="creche-info">
-                        <strong>Formation organisée pour :</strong><br>
-                        Crèche "Les Petits Queniaux"
-                    </div>
-                </div>
-                
-                <h1 class="main-title">Apprenez à mieux communiquer avec la Communication Non Violente</h1>
-                <p class="subtitle">Transformez vos relations professionnelles grâce aux outils de la CNV</p>
-            </div>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo-section">
+          <img src="assets/logo-blob.png" alt="BLOB Conseil & Formation" class="blob-logo">
+          <div class="creche-info">
+            <strong>Formation organisée pour :</strong><br>
+            Crèche "Les Petits Queniaux"
+          </div>
         </div>
-    </header>
+        <h1 class="main-title">Apprenez à mieux communiquer avec la Communication Non Violente</h1>
+        <p class="subtitle">Transformez vos relations professionnelles grâce aux outils de la CNV</p>
+      </div>
+    </div>
+  </header>
 
-    <!-- Event Info -->
-    <section class="event-info">
-        <div class="container">
-            <h2 class="section-title">Informations pratiques</h2>
-            <div class="event-grid">
-                <div class="info-card">
-                    <h3>📅 Date et horaires</h3>
-                    <p><strong>Lundi 24 novembre 2025</strong></p>
-                    <p>9h00 - 12h30 / 13h30 - 17h00</p>
-                    <p><em>Formation sur 1 jour (7 heures)</em></p>
-                </div>
-                <div class="info-card">
-                    <h3>📍 Lieu</h3>
-                    <p><strong>Crèche "Les Petits Queniaux"</strong></p>
-                    <p>5 Avenue Olympe de Gouges</p>
-                    <p>44240 La Chapelle-sur-Erdre</p>
-                </div>
-                <div class="info-card">
-                    <h3>👥 Public</h3>
-                    <p>Professionnels de la petite enfance</p>
-                    <p>Maximum 20 participants</p>
-                    <p><em>Aucun prérequis nécessaire</em></p>
-                </div>
-            </div>
+  <!-- Event Info -->
+  <section class="event-info">
+    <div class="container">
+      <h2 class="section-title">Informations pratiques</h2>
+      <div class="event-grid">
+        <div class="info-card">
+          <h3>📅 Date et horaires</h3>
+          <p><strong>Lundi 24 novembre 2025</strong></p>
+          <p>9h00 - 12h30 / 13h30 - 17h00</p>
+          <p><em>Formation sur 1 jour (7 heures)</em></p>
         </div>
-    </section>
-
-    <!-- Objectives -->
-    <section class="objectives">
-        <div class="container">
-            <h2>🎯 Objectifs pédagogiques</h2>
-            <p style="margin-bottom: 25px; font-size: 1.1rem;">À la fin de cette formation, les participants seront capables de :</p>
-            <div class="objectives-list">
-                <div class="objective-item">Identifier les principes de base de la Communication Non Violente (CNV)</div>
-                <div class="objective-item">Appliquer les 4 étapes du processus CNV (OSBD) dans leurs échanges quotidiens</div>
-                <div class="objective-item">Pratiquer une écoute active avec leurs interlocuteurs</div>
-                <div class="objective-item">Décoder les besoins et émotions derrière les comportements (parents, enfants, collègues)</div>
-                <div class="objective-item">Formuler des demandes claires et positives pour éviter les conflits</div>
-            </div>
+        <div class="info-card">
+          <h3>📍 Lieu</h3>
+          <p><strong>Crèche "Les Petits Queniaux"</strong></p>
+          <p>5 Avenue Olympe de Gouges</p>
+          <p>44240 La Chapelle-sur-Erdre</p>
         </div>
-    </section>
-
-    <!-- Program -->
-    <section class="program-section">
-        <div class="container">
-            <h2 class="section-title">📋 Programme détaillé</h2>
-            <p style="text-align: center; margin-bottom: 30px; font-style: italic; color: #666;">
-                Programme donné à titre indicatif, adaptable selon les échanges avec les participants
-            </p>
-            
-            <div class="accordion">
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(0)">
-                        <span>🌅 Matinée : Découverte des fondamentaux de la CNV</span>
-                    </div>
-                    <div class="accordion-content">
-                        <h4><strong>9h00 - 9h30 : Accueil et introduction</strong></h4>
-                        <p>• Tour de table et présentation des objectifs<br>• Questionnaire CNV initial<br>• Pose du cadre et des attentes</p>
-                        
-                        <h4><strong>9h30 - 10h30 : Les bases de la CNV</strong></h4>
-                        <p>• Comprendre les 4 piliers : Observation, Sentiment, Besoin, Demande<br>• Exposé interactif avec exemples concrets<br>• Exercices courts d'application</p>
-                        
-                        <h4><strong>10h45 - 12h30 : Décodage des besoins et émotions</strong></h4>
-                        <p>• Identifier les besoins cachés derrière les émotions<br>• Apprendre à reformuler avec empathie<br>• Études de cas concrets liés à la crèche<br>• Jeux de rôle avec feedback collectif</p>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(1)">
-                        <span>🌞 Après-midi : Mise en pratique et applications concrètes</span>
-                    </div>
-                    <div class="accordion-content">
-                        <h4><strong>13h30 - 15h00 : L'écoute active</strong></h4>
-                        <p>• Apprendre à écouter pour comprendre, pas pour répondre<br>• Techniques de reformulation empathique<br>• Exercices pratiques d'écoute active en binômes</p>
-                        
-                        <h4><strong>15h15 - 16h15 : Mises en situation spécifiques</strong></h4>
-                        <p>• Application de la CNV dans des cas pratiques liés à la crèche<br>• Jeux de rôle : scénarios avec parents, enfants, collègues<br>• Débriefing collectif et partage d'expériences</p>
-                        
-                        <h4><strong>16h15 - 17h00 : Synthèse et plan d'action</strong></h4>
-                        <p>• Clarification des prochaines étapes pour intégrer la CNV<br>• Travail individuel sur un plan d'action personnel<br>• Échange collectif et évaluation de la formation</p>
-                    </div>
-                </div>
-            </div>
+        <div class="info-card">
+          <h3>👥 Public</h3>
+          <p>Professionnels de la petite enfance</p>
+          <p>Maximum 20 participants</p>
+          <p><em>Aucun prérequis nécessaire</em></p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Map -->
-    <section class="map-section">
-        <div class="container">
-            <h2 class="section-title">📍 Plan d'accès</h2>
-            <p style="text-align: center; margin-bottom: 20px;">
-                <strong>Crèche "Les Petits Queniaux"</strong><br>
-                5 Avenue Olympe de Gouges, 44240 La Chapelle-sur-Erdre
-            </p>
-            <div class="map-container">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2701.1234567890123!2d-1.5503!3d47.2897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDE3JzIzLjAiTiAxwrAzMycwMS4xIlc!5e0!3m2!1sfr!2sfr!4v1234567890123!5m2!1sfr!2sfr&q=5+Avenue+Olympe+de+Gouges,+44240+La+Chapelle-sur-Erdre"
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade"
-                    title="Plan d'accès à la crèche Les Petits Queniaux">
-                </iframe>
-            </div>
+  <!-- Objectives -->
+  <section class="objectives">
+    <div class="container">
+      <h2>🎯 Objectifs pédagogiques</h2>
+      <p style="margin-bottom:25px;font-size:1.1rem;">À la fin de cette formation, les participants seront capables de :</p>
+      <div class="objectives-list">
+        <div class="objective-item">Identifier les principes de base de la Communication Non Violente (CNV)</div>
+        <div class="objective-item">Appliquer les 4 étapes du processus CNV (OSBD) dans leurs échanges quotidiens</div>
+        <div class="objective-item">Pratiquer une écoute active avec leurs interlocuteurs</div>
+        <div class="objective-item">Décoder les besoins et émotions derrière les comportements (parents, enfants, collègues)</div>
+        <div class="objective-item">Formuler des demandes claires et positives pour éviter les conflits</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Program -->
+  <section class="program-section">
+    <div class="container">
+      <h2 class="section-title">📋 Programme détaillé</h2>
+      <p style="text-align:center;margin-bottom:30px;font-style:italic;color:#666;">
+        Programme donné à titre indicatif, adaptable selon les échanges avec les participants
+      </p>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(0)">
+            <span>🌅 Matinée : Découverte des fondamentaux de la CNV</span>
+          </div>
+          <div class="accordion-content">
+            <h4><strong>9h00 - 9h30 : Accueil et introduction</strong></h4>
+            <p>• Tour de table et présentation des objectifs<br>• Questionnaire CNV initial<br>• Pose du cadre et des attentes</p>
+            <h4><strong>9h30 - 10h30 : Les bases de la CNV</strong></h4>
+            <p>• Comprendre les 4 piliers : Observation, Sentiment, Besoin, Demande<br>• Exposé interactif avec exemples concrets<br>• Exercices courts d'application</p>
+            <h4><strong>10h45 - 12h30 : Décodage des besoins et émotions</strong></h4>
+            <p>• Identifier les besoins cachés derrière les émotions<br>• Apprendre à reformuler avec empathie<br>• Études de cas concrets liés à la crèche<br>• Jeux de rôle avec feedback collectif</p>
+          </div>
         </div>
-    </section>
 
-    <!-- Downloads -->
-    <section class="downloads">
-        <div class="container">
-            <h2>📄 Documents à télécharger</h2>
-            <div class="download-buttons">
-                <a href="#" class="download-btn" onclick="alert('Le programme détaillé sera envoyé par email avant la formation')">
-                    📋 Programme détaillé (PDF)
-                </a>
-                <a href="#" class="download-btn" onclick="alert('Le guide pratique CNV sera remis pendant la formation')">
-                    📖 Guide pratique CNV
-                </a>
-            </div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(1)">
+            <span>🌞 Après-midi : Mise en pratique et applications concrètes</span>
+          </div>
+          <div class="accordion-content">
+            <h4><strong>13h30 - 15h00 : L'écoute active</strong></h4>
+            <p>• Apprendre à écouter pour comprendre, pas pour répondre<br>• Techniques de reformulation empathique<br>• Exercices pratiques d'écoute active en binômes</p>
+            <h4><strong>15h15 - 16h15 : Mises en situation spécifiques</strong></h4>
+            <p>• Application de la CNV dans des cas pratiques liés à la crèche<br>• Jeux de rôle : scénarios avec parents, enfants, collègues<br>• Débriefing collectif et partage d'expériences</p>
+            <h4><strong>16h15 - 17h00 : Synthèse et plan d'action</strong></h4>
+            <p>• Clarification des prochaines étapes pour intégrer la CNV<br>• Travail individuel sur un plan d'action personnel<br>• Échange collectif et évaluation de la formation</p>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>👩‍🏫 Votre formatrice</h3>
-                    <p><strong>Clémentine BABONNEAU</strong></p>
-                    <p>Formatrice professionnelle depuis 2017</p>
-                    <p>Plus de 100 formations animées</p>
-                    <p>Taux de satisfaction : 4,8/5</p>
-                    <p>Fondatrice de BLOB - Certifié QUALIOPI</p>
-                </div>
-                <div class="footer-section">
-                    <h3>📞 Contact</h3>
-                    <p><strong>BLOB Conseil & Formation</strong></p>
-                    <p>10 rue des Néfliers<br>44300 Nantes</p>
-                    <p>📧 <a href="mailto:clementine@blobconseilformation.fr">clementine@blobconseilformation.fr</a></p>
-                    <p>📱 <a href="tel:0672306847">06 72 30 68 47</a></p>
-                    <p>🌐 <a href="https://www.blobconseilformation.fr" target="_blank">www.blobconseilformation.fr</a></p>
-                </div>
-                <div class="footer-section">
-                    <h3>♿ Accessibilité & Inclusion</h3>
-                    <p>Nous nous engageons à accueillir tous les participants dans les meilleures conditions.</p>
-                    <p>Pour toute situation de handicap, merci de nous contacter :</p>
-                    <p><strong>Clémentine Babonneau</strong><br>Référente Handicap</p>
-                    <p><a href="https://www.blobconseilformation.fr/_files/ugd/99971f_3404507af96942d08a2529760d38cb7a.pdf" target="_blank">📋 Politique d'inclusion et de gestion du handicap</a></p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2025 BLOB Conseil & Formation | SARL au capital de 2000€ | SIRET: 981 330 970 00014 | NAF 7022Z | NDA 52 44 10914 44 (PDL) | QUALIOPI CAP1645</p>
-            </div>
+  <!-- Map -->
+  <section class="map-section">
+    <div class="container">
+      <h2 class="section-title">📍 Plan d'accès</h2>
+      <p style="text-align:center;margin-bottom:20px;">
+        <strong>Crèche "Les Petits Queniaux"</strong><br>
+        5 Avenue Olympe de Gouges, 44240 La Chapelle-sur-Erdre
+      </p>
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2701.1234567890123!2d-1.5503!3d47.2897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDE3JzIzLjAiTiAxwrAzMycwMS4xIlc!5e0!3m2!1sfr!2sfr!4v1234567890123!5m2!1sfr!2sfr&q=5+Avenue+Olympe+de+Gouges,+44240+La+Chapelle-sur-Erdre"
+                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                title="Plan d'accès à la crèche Les Petits Queniaux"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Downloads -->
+  <section class="downloads">
+    <div class="container">
+      <h2>📄 Documents à télécharger</h2>
+      <div class="download-buttons">
+        <a class="download-btn" href="programme.pdf" target="_blank" rel="noopener">
+          📋 Programme détaillé (PDF)
+        </a>
+        <a class="download-btn" href="livret-stagiaire.pdf" target="_blank" rel="noopener">
+          📖 Livret stagiaire (PDF)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>👩‍🏫 Votre formatrice</h3>
+          <p><strong>Clémentine BABONNEAU</strong></p>
+          <p>Formatrice professionnelle depuis 2017</p>
+          <p>Plus de 100 formations animées</p>
+          <p>Taux de satisfaction : 4,8/5</p>
+          <p>Fondatrice de BLOB - Certifié QUALIOPI</p>
         </div>
-    </footer>
+        <div class="footer-section">
+          <h3>📞 Contact</h3>
+          <p><strong>BLOB Conseil & Formation</strong></p>
+          <p>10 rue des Néfliers<br>44300 Nantes</p>
+          <p>📧 <a href="mailto:clementine@blobconseilformation.fr">clementine@blobconseilformation.fr</a></p>
+          <p>📱 <a href="tel:0672306847">06 72 30 68 47</a></p>
+          <p>🌐 <a href="https://www.blobconseilformation.fr" target="_blank">www.blobconseilformation.fr</a></p>
+        </div>
+        <div class="footer-section">
+          <h3>♿ Accessibilité & Inclusion</h3>
+          <p>Nous nous engageons à accueillir tous les participants dans les meilleures conditions.</p>
+          <p>Pour toute situation de handicap, merci de nous contacter :</p>
+          <p><strong>Clémentine Babonneau</strong><br>Référente Handicap</p>
+          <p><a href="https://www.blobconseilformation.fr/_files/ugd/99971f_3404507af96942d08a2529760d38cb7a.pdf" target="_blank">📋 Politique d'inclusion et de gestion du handicap</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 BLOB Conseil & Formation | SARL au capital de 2000€ | SIRET: 981 330 970 00014 | NAF 7022Z | NDA 52 44 10914 44 (PDL) | QUALIOPI CAP1645</p>
+      </div>
+    </div>
+  </footer>
 
-    <script>
-        function toggleAccordion(index) {
-            const accordionItems = document.querySelectorAll('.accordion-item');
-            const header = accordionItems[index].querySelector('.accordion-header');
-            const content = accordionItems[index].querySelector('.accordion-content');
-            
-            const isActive = content.classList.contains('active');
-            
-            // Close all accordion items
-            accordionItems.forEach((item) => {
-                item.querySelector('.accordion-header').classList.remove('active');
-                item.querySelector('.accordion-content').classList.remove('active');
-            });
-            
-            // Toggle current item
-            if (!isActive) {
-                header.classList.add('active');
-                content.classList.add('active');
-            }
-        }
-
-        // Add smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add loading animation
-        window.addEventListener('load', function() {
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.5s ease-in-out';
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
-        });
-    </script>
+  <script>
+    function toggleAccordion(index){
+      const items=document.querySelectorAll('.accordion-item');
+      const header=items[index].querySelector('.accordion-header');
+      const content=items[index].querySelector('.accordion-content');
+      const isActive=content.classList.contains('active');
+      items.forEach(it=>{
+        it.querySelector('.accordion-header').classList.remove('active');
+        it.querySelector('.accordion-content').classList.remove('active');
+      });
+      if(!isActive){header.classList.add('active');content.classList.add('active');}
+    }
+    // Smooth scroll for internal anchors (if any)
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{
+        e.preventDefault();
+        const t=document.querySelector(a.getAttribute('href'));
+        if(t){t.scrollIntoView({behavior:'smooth',block:'start'});}
+      });
+    });
+    // Small fade-in
+    window.addEventListener('load',()=>{
+      document.body.style.opacity='0';
+      document.body.style.transition='opacity .5s ease-in-out';
+      setTimeout(()=>{document.body.style.opacity='1';},100);
+    });
+  </script>
 </body>
 </html>
