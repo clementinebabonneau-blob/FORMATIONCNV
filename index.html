@@ -63,7 +63,22 @@
             gap: 20px;
         }
 
-        .blob-logo {
+        /* Taille du logo : responsive */
+.blob-logo {
+  width: clamp(120px, 18vw, 220px); /* min = 120px, puis 18% de la largeur écran, max = 220px */
+  height: auto;                     /* garde les proportions */
+  display: block;
+}
+
+/* Optionnel : si tu veux un petit “carton” blanc autour du logo (comme avant) */
+.logo-section .blob-logo {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  border: 2px solid #FFCE55;
+}
+
             background: white;
             padding: 20px;
             border-radius: 15px;
